@@ -8,14 +8,71 @@ import SEO from "../components/seo"
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
+
+    <h3
+      style={{
+        color: "#bbbbbb"
+      }}
+    > 
+      Guess the song and indicate the author of the following sentence in 20 seconds:
+    </h3>
+
+    <h1 className="lyric-card">“ Hi people</h1>
+
+    <div
+        style={{
+          display: "flex",
+          marginTop: "60px"
+        }}
+    >
+      <div
+        className="btn-artist"
+      >
+        <strong>
+          <ul>
+            <li>
+              Rocco Hunt
+            </li>
+          </ul>
+        </strong>
+      </div>
+      <div
+        className="btn-artist"
+      >
+        <strong>
+          <ul>
+            <li>
+              Sfera Ebbasta
+            </li>
+          </ul>
+        </strong>
+      </div>
+      <div
+        className="btn-artist"
+      >
+        <strong>
+          <ul>
+            <li>
+              Tiziano Ferro
+            </li>
+          </ul>
+        </strong>
+      </div>  
     </div>
-    <Link to="/page-2/">Go to page 2</Link> <br />
-    <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
+
+    <div
+        style={{
+          marginTop: "150px"
+        }}
+    >
+      <div
+        className="reset-btn"
+      >
+        Reset
+      </div>
+    </div>
+
+
   </Layout>
 )
 
