@@ -1,11 +1,5 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
 import React from "react"
+
 import PropTypes from "prop-types"
 import { Link, useStaticQuery, graphql } from "gatsby"
 
@@ -33,9 +27,9 @@ const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <Link className="button" to="/">Quiz</Link>
-        <Link className="button" to="/using-typescript/">Ranking</Link>
-        <Link className="button" to="/page-2/">Player</Link>
+        <Link className="button" activeClassName="active-button" to="/">Quiz</Link>
+        <Link className="button" activeClassName="active-button" to="/ranking/">Ranking</Link>
+        <Link className="button" activeClassName="active-button" to="/player/">Player</Link>
         <main
           style={{
             marginTop: `100px`,

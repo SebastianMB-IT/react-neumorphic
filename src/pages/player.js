@@ -1,12 +1,11 @@
 import React from "react"
-import { Link } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const SecondPage = () => (
+const Player = () => (
   <Layout>
-    <SEO title="Page two" />
+    <SEO title="Player" />
     <h1>Sebastian Marius Besel</h1>
     <h1
       className="points-text"
@@ -16,4 +15,4 @@ const SecondPage = () => (
   </Layout>
 )
 
-export default SecondPage
+export default Player

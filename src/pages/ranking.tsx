@@ -1,7 +1,7 @@
 // If you don't want to use TypeScript you can delete this file!
 import React from "react"
-import { PageProps, Link, graphql } from "gatsby"
 
+import { PageProps } from "gatsby"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
@@ -11,11 +11,10 @@ type DataProps = {
   }
 }
 
-const UsingTypescript: React.FC<PageProps<DataProps>> = ({ data, path }) => (
+const Ranking: React.FC<PageProps<DataProps>> = ({ data, path }) => (
   <Layout>
-    <SEO title="Using TypeScript" />
+    <SEO title="Ranking" />
     <h2>Best users ranking:</h2>
-
     <div className="lyric-card">
       <ul>
         <li>
@@ -29,16 +28,7 @@ const UsingTypescript: React.FC<PageProps<DataProps>> = ({ data, path }) => (
         </li>
       </ul>
     </div>
-
   </Layout>
 )
 
-export default UsingTypescript
-
-export const query = graphql`
-  {
-    site {
-      buildTime(formatString: "YYYY-MM-DD hh:mm a z")
-    }
-  }
-`
+export default Ranking

@@ -1,79 +1,111 @@
 import React from "react"
-import { Link } from "gatsby"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
+import QuizGame from "../components/quizgame"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
+class Quiz extends React.Component {
 
-    <h3
-      style={{
-        color: "#bbbbbb"
-      }}
-    > 
-      Guess the song and indicate the author of the following sentence in 20 seconds:
-    </h3>
+  constructor (props) {
+    super(props)
+    const playerName = localStorage.getItem("playerName")
+    this.state = {
+      "playerName": playerName || "",
+      "startedQuiz": !playerName ? false : true
+    }
+    this.setPlayerName = this.setPlayerName.bind(this)
+    this.startQuiz = this.startQuiz.bind(this)
+    this.resetQuiz = this.resetQuiz.bind(this)
+  }
 
-    <h1 className="lyric-card">“ Hi people</h1>
+  setPlayerName (e) {
+    this.setState({
+      "playerName": e.target.value
+    })
+  }
 
-    <div
-        style={{
-          display: "flex",
-          marginTop: "60px"
-        }}
-    >
-      <div
-        className="btn-artist"
-      >
-        <strong>
-          <ul>
-            <li>
-              Rocco Hunt
-            </li>
-          </ul>
-        </strong>
-      </div>
-      <div
-        className="btn-artist"
-      >
-        <strong>
-          <ul>
-            <li>
-              Sfera Ebbasta
-            </li>
-          </ul>
-        </strong>
-      </div>
-      <div
-        className="btn-artist"
-      >
-        <strong>
-          <ul>
-            <li>
-              Tiziano Ferro
-            </li>
-          </ul>
-        </strong>
-      </div>  
-    </div>
+  startQuiz () {
+    // store playername
+    if (!this.state.playerName) return
+    localStorage.setItem("playerName", this.state.playerName)
+    this.setState({
+      "startedQuiz": true
+    })
+  }
 
-    <div
-        style={{
-          marginTop: "150px"
-        }}
-    >
-      <div
-        className="reset-btn"
-      >
-        Reset
-      </div>
-    </div>
+  resetQuiz () {
+    // delete playername
+    localStorage.removeItem("playerName")
+    this.setState({
+      "playerName": "",
+      "startedQuiz": false
+    })
+  }
 
+  preventDefault (e) {
+    e.preventDefault()
+  }
 
-  </Layout>
-)
+  render () {
+    const startedQuiz = this.state.startedQuiz
 
-export default IndexPage
+    return (
+      <Layout>
+        <SEO title="Home" />
+        {!startedQuiz ? (
+          <>
+            <h3
+              style={{
+                color: "#bbbbbb"
+              }}
+            > 
+              Insert your name and start the game:
+            </h3>
+            <form onSubmit={this.preventDefault}>
+              <input
+                type="text"
+                className="name-input"
+                name="playerName"
+                value={this.state.playerName}
+                onChange={this.setPlayerName}
+              />
+            </form>
+          </>
+        ) : (
+          <QuizGame/>
+        )}
+        <div
+          style={{
+            marginTop: "150px"
+          }}
+        >
+          {!startedQuiz ? (
+            <>
+              <div
+                className="start-btn"
+                role="button"
+                tabIndex={0}
+                onClick={this.startQuiz}
+              >
+                Start
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                className="reset-btn"
+                role="button"
+                tabIndex={0}
+                onClick={this.resetQuiz}
+              >
+                Reset
+              </div>
+            </>
+          )}
+        </div>
+      </Layout>
+    )
+  }
+}
+
+export default Quiz

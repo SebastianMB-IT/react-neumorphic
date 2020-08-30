@@ -661,6 +661,7 @@ pre tt:after {
 }
 .reset-btn {
   color: #a91e2c;
+  margin-left: 25px;
   border-radius: 11px;
   font-weight: 600;
   cursor: pointer;
@@ -676,6 +677,23 @@ pre tt:after {
   box-shadow: inset 7px 7px 15px rgba(66, 66, 66, 0.15), inset -7px -7px 20px white, 0px 0px 4px rgba(255, 255, 255, 0.2);
   color: #d22d3d;
 }
+.start-btn {
+  color: #3b843c;
+  border-radius: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 17px;
+  box-shadow: inset 0 0 15px rgba(66, 66, 66, 0), inset 0 0 20px rgba(255, 255, 255, 0), 7px 7px 15px rgba(58, 58, 58, 0.15), -7px -7px 20px white, inset 0px 0px 4px rgba(255, 255, 255, 0.2);
+  transition: box-shadow 399ms ease-in-out;
+  width: fit-content;
+  padding: 15px 40px;
+  float: right;
+}
+.start-btn:hover {
+  box-shadow: inset 7px 7px 15px rgba(66, 66, 66, 0.15), inset -7px -7px 20px white, 0px 0px 4px rgba(255, 255, 255, 0.2);
+  color: #479e48;
+}
 .points-text {
   top: 50%;
   left: 50%;
@@ -684,5 +702,22 @@ pre tt:after {
   color: white;
   text-shadow: -8px -8px 12px rgba(255,255,255,0.4), 8px 8px 12px rgba(0,0,0,0.08);
   caret-color: #262626;
+  outline: none;
+}
+.active-button {
+  box-shadow: inset 7px 7px 15px rgba(66, 66, 66, 0.15), inset -7px -7px 20px white, 0px 0px 4px rgba(255, 255, 255, 0.2);
+  color:#676767;
+}
+.name-input {
+  width: 100%;
+  font-weight: 600;
+  height: 80px;
+  border-radius: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 26px;
+  box-shadow: inset 7px 7px 15px rgba(66, 66, 66, 0.15), inset -7px -7px 20px white, 0px 0px 4px rgba(255, 255, 255, 0.2);
+  padding: 15px 50px;
+  background: rgb(242, 242, 242);
+  border: none;
   outline: none;
 }
