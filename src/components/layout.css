@@ -721,3 +721,11 @@ pre tt:after {
   border: none;
   outline: none;
 }
+
+.correct {
+  color: #3b843c !important;
+}
+
+.not-correct {
+  color: #d22d3d !important;
+}

@@ -1,7 +1,7 @@
 import React from "react"
-import axios from 'axios'
+import axios from "axios"
 
-import Utils from './utils'
+import Utils from "./utils"
 
 class QuizGame extends React.Component {
 
@@ -18,9 +18,15 @@ class QuizGame extends React.Component {
       "timer": 20,
       "artists": [],
       "currentArtists": [],
-      "nextArtists": []
+      "nextArtists": [],
+      "gameloading" : true,
+      "missingtime": 20,
+      "timer": "",
+      "selectedArtist": "",
+      "hasReplied": false,
+      "isCorrect": false
     }
-    this.goToNext = this.goToNext.bind(this)
+    this.responseCheck = this.responseCheck.bind(this)
   }
 
   componentDidMount () {
@@ -41,6 +47,28 @@ class QuizGame extends React.Component {
       })
   }
 
+  startCountdown () {
+    this.setState({
+      "timer": setInterval(() => {
+        if (this.state.missingtime < 1) {
+          this.goToNext()
+        } else {
+          this.setState(({ missingtime }) => ({
+            "missingtime": missingtime - 1
+          }))
+        }
+      }, 1000)
+    })
+  }
+
+  resetCountdown () {
+    clearInterval(this.state.timer)
+    this.setState({
+      "missingtime": 20
+    })
+    this.startCountdown()
+  }
+
   getSongArtists (songArtist) {
     let allArtists = [] 
     let currentArtists = [] 
@@ -56,6 +84,14 @@ class QuizGame extends React.Component {
     return Utils.shuffle(currentArtists)
   }
 
+  resetResponse () {
+    this.setState({
+      "selectedArtist": "",
+      "hasReplied": false,
+      "isCorrect": false
+    })
+  }
+
   setFirstSong () {
     if (this.state.songs.length === 0) return
     let currentSong = this.state.songs[this.state.songsOffset]
@@ -66,8 +102,10 @@ class QuizGame extends React.Component {
         currentSong.track.lyrics_body = fullLyric.substring(0, fullLyric.indexOf(" ", 80) + 1)
         this.setState({
           "currentSong": currentSong,
-          "currentArtists": this.getSongArtists(currentSong.track.artist_name)
+          "currentArtists": this.getSongArtists(currentSong.track.artist_name),
+          "gameloading": false
         })
+        this.startCountdown()
       })
   }
 
@@ -105,64 +143,90 @@ class QuizGame extends React.Component {
         this.setNextSong()
       })
     }
+    this.resetResponse()
+    this.resetCountdown()
+  }
+
+  updateUserScore () {
+    let playerName = localStorage.getItem("playerName")
+    let ranking = JSON.parse(localStorage.getItem("playersRanking")) || {}
+    ranking[playerName] = ranking[playerName] ? ranking[playerName] + 1 : 1
+    localStorage.setItem("playersRanking", JSON.stringify(ranking));
+  }
+
+  responseCheck (artist) {
+    // Check if the author is correct
+    let songArtist = this.state.songs[this.state.songsOffset].track.artist_name
+    if (artist == songArtist) {
+      // correct
+      this.setState({
+        "selectedArtist": artist,
+        "hasReplied": true,
+        "isCorrect": true
+      })
+      this.updateUserScore()
+    } else {
+      // not correct
+      this.setState({
+        "selectedArtist": artist,
+        "hasReplied": true,
+        "isCorrect": false
+      })
+    }
+    setTimeout(() => {
+      this.goToNext()
+    }, 1500)
   }
 
   render () {
-
     const currentSongLyric = this.state.currentSong.track ? `${this.state.currentSong.track.lyrics_body}...` : ""
-
-    return (
-      <>
-      <h3
-        style={{
-          color: "#bbbbbb"
-        }}
-      > 
-        Guess the song and indicate the author of the following part of lyric in 20 seconds:
-      </h3>
-      <h1 className="lyric-card"> 
-        {`“ ${currentSongLyric}`}
-      </h1>
-      <div
-        style={{
-          display: "flex",
-          marginTop: "60px"
-        }}
-      >
+    const artistsList = this.state.currentArtists.map((artist, i) => {
+      let btnClass = "btn-artist"
+      if (artist == this.state.selectedArtist && this.state.hasReplied && this.state.isCorrect) {
+        btnClass = `${btnClass} correct`
+      } else if (artist == this.state.selectedArtist && this.state.hasReplied && !this.state.isCorrect) {
+        btnClass = `${btnClass} not-correct`
+      }
+      return (
         <div 
-          className="btn-artist"
+          className={btnClass}
           role="button"
+          key={i}
           tabIndex={0}
-          onClick={this.goToNext}
+          onClick={() => this.responseCheck(artist)}
         >
           <strong>
             <ul>
               <li>
-                Rocco Hunt
+                {artist}
               </li>
             </ul>
           </strong>
         </div>
-        <div className="btn-artist">
-          <strong>
-            <ul>
-              <li>
-                Sfera Ebbasta
-              </li>
-            </ul>
-          </strong>
+      )
+    })
+
+    return (
+      <>
+        <h3
+          style={{
+            color: "#bbbbbb"
+          }}
+        > 
+          {`Guess the song and indicate the author of the following part of lyric in ${this.state.missingtime} seconds:`}
+        </h3>
+        <h1 className="lyric-card"> 
+          {this.state.gameloading ? `Loading...` : `“ ${currentSongLyric}`}
+        </h1>
+        <div
+          style={{
+            display: "flex",
+            marginTop: "60px"
+          }}
+        >
+          {artistsList}
         </div>
-        <div className="btn-artist">
-          <strong>
-            <ul>
-              <li>
-                Tiziano Ferro
-              </li>
-            </ul>
-          </strong>
-        </div>  
-      </div>
-    </>
+      </>
     )
   }
 }

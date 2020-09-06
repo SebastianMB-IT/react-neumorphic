@@ -51,7 +51,7 @@ class Quiz extends React.Component {
 
     return (
       <Layout>
-        <SEO title="Home" />
+        <SEO title="Quiz" />
         {!startedQuiz ? (
           <>
             <h3
