@@ -8,14 +8,21 @@ class Quiz extends React.Component {
 
   constructor (props) {
     super(props)
-    const playerName = localStorage.getItem("playerName")
     this.state = {
-      "playerName": playerName || "",
-      "startedQuiz": !playerName ? false : true
+      "playerName": "",
+      "startedQuiz": false
     }
     this.setPlayerName = this.setPlayerName.bind(this)
     this.startQuiz = this.startQuiz.bind(this)
     this.resetQuiz = this.resetQuiz.bind(this)
+  }
+
+  componentDidMount() {
+    const playerName = localStorage.getItem("playerName")
+    this.setState({
+      "playerName": playerName || "",
+      "startedQuiz": !playerName ? false : true
+    })
   }
 
   setPlayerName (e) {
